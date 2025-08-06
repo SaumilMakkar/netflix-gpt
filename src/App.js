@@ -1,11 +1,9 @@
-
+import Body from './components/Body.js'
 import './App.css';
 
 function App() {
   return (
-    <div className="App text-3xl font-bold">
-      Hello
-    </div>
+    <Body/>
   );
 }
 
