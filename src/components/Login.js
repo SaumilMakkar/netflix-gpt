@@ -4,13 +4,14 @@ import { useState,useRef } from 'react'
 import { checkValidData } from '../utils/validate';
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword,updateProfile } from "firebase/auth";
 import { auth } from '../utils/firebase';
-import { useNavigate } from 'react-router-dom';
+import { BG_IMAGE, USER_AVATAR } from '../utils/constants';
+
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 const Login = () => {
 const [isSignInForm,setisSignInForm]= useState(true);
 const [errorMsg,seterrorMsg]=useState();
-const navigate=useNavigate();
+
 const email=useRef(null);
 const password=useRef(null);
 const name=useRef(null);
@@ -46,13 +47,13 @@ const passwordValue = password.current?.value || "";
     // Signed up 
     const user = userCredential.user;
     updateProfile(user,{
-      displayName:name?.current?.value,photoURL:"https://avatars.githubusercontent.com/u/150394809?v=4"
+      displayName:name?.current?.value,photoURL:USER_AVATAR
     })
     
     .then(()=>{
   const {uid,email,displayName,photoURL} = auth.currentUser;
   dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}));
-  navigate('/browse');
+ 
 })
     .catch((error)=>{
       seterrorMsg(error.message);
@@ -75,13 +76,13 @@ const passwordValue = password.current?.value || "";
   .then((userCredential) => {
     // Signed in 
     const user=userCredential.user;
-   console.log(user);
+  
   // Profile updated!
   // ...
    updateProfile(user,{
       displayName:name?.current?.value,photoURL:"https://avatars.githubusercontent.com/u/150394809?v=4"
     })
-  navigate('/browse');
+ 
 })
     
     // ...
@@ -105,7 +106,7 @@ return (
     <div>
         <Header/>
         <div className='absolute'>
-        <img src='https://assets.nflxext.com/ffe/siteui/vlv3/258d0f77-2241-4282-b613-8354a7675d1a/web/IN-en-20250721-TRIFECTA-perspective_cadc8408-df6e-4313-a05d-daa9dcac139f_small.jpg'>
+        <img src={BG_IMAGE}>
         </img>
         </div>
         <form onSubmit={(e)=>e.preventDefault()} className=' w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-70'>
